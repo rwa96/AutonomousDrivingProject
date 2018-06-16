@@ -1,4 +1,5 @@
 .build
+src/presets.hpp
 tools/*
 !tools/.config
 !tools/crosstool-ng-toolchain.cmake
