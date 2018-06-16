@@ -1,0 +1,13 @@
+#ifndef PRESETS_HPP
+#define PRESETS_HPP
+
+/** Version string for this project. */
+#define PROJECT_INFO "@CMAKE_PROJECT_NAME@ - v@VERSION_MAJOR@.@VERSION_MINOR@.@VERSION_PATCH@"
+
+/** Serial connection to rplidar. */
+#define RPLIDAR_CONNECTION "@presets_rplidar_connection@"
+
+/** Baud rate of rplidar serial connection. */
+#define RPLIDAR_BAUD_RATE @presets_rplidar_baud_rate@
+
+#endif /* end of include guard: PRESETS_HPP */

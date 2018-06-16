@@ -1,0 +1,4 @@
+.build
+tools/*
+!tools/.config
+!tools/crosstool-ng-toolchain.cmake
