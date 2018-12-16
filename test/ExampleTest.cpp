@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 
-TEST (TensorTest, TrivialTest) {
+TEST (ExampleTest, TrivialTest) {
     EXPECT_EQ(1 + 1, 2);
 }
 
