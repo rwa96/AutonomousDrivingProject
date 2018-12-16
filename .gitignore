@@ -1,5 +1,3 @@
-.build
+.vscode
+build
 src/common/project_info.hpp
-tools/*
-!tools/.config
-!tools/crosstool-ng-toolchain.cmake
