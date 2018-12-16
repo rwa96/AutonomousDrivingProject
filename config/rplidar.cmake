@@ -1,6 +1,7 @@
 find_package(Threads REQUIRED)
 
-configure_file(RPLidar_CMakeLists.txt.in rplidar/CMakeLists.txt)
+# Download, unpack and build rplidar sdk at configure time
+configure_file(config/RPLidar_CMakeLists.txt.in rplidar/CMakeLists.txt)
 execute_process(COMMAND ${CMAKE_COMMAND} -G ${CMAKE_GENERATOR} .
     RESULT_VARIABLE result
     WORKING_DIRECTORY ${PROJECT_BINARY_DIR}/rplidar
@@ -17,7 +18,7 @@ if(result)
     message(FATAL_ERROR "Build step for rplidar failed: ${result}")
 endif()
 
-
+# Add rplidar sdk as static library
 add_library(RPlidar STATIC IMPORTED)
 set_property(TARGET RPlidar PROPERTY IMPORTED_LOCATION ${PROJECT_BINARY_DIR}/rplidar/src/RPLidar/sdk/output/Linux/Release/librplidar_sdk.a)
 set_property(TARGET RPlidar APPEND PROPERTY INTERFACE_INCLUDE_DIRECTORIES

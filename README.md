@@ -3,7 +3,9 @@
 ## Dependencies
 
 ### Software
-*   [doxygen](https://www.stack.nl/~dimitri/doxygen/) to generate source code documentation **[Not required]**
+*   [doxygen](https://www.stack.nl/~dimitri/doxygen/) **[Not required]**
+*   [RPLidar SDK](https://github.com/slamtec/rplidar_sdk)
+*   [GoogleTest](https://github.com/google/googletest)
 
 ### Hardware
 *   [RaspberryPi 3 Model B](https://www.raspberrypi.org/products/raspberry-pi-3-model-b/)

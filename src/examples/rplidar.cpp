@@ -1,18 +1,23 @@
 #include <memory>
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 #include "rplidar.h"        // RPlidar sdk
 #include "project_info.hpp" // Serial port and baud rate
 #include "utils.hpp"        // Error messages
 
-using RPlidarDriver = rp::standalone::rplidar::RPlidarDriver;
+namespace RPlidar = rp::standalone::rplidar;
 
 /**
  * Example implementation using rplidar sdk interface.
  */
 int main() {
     // create managed instance of RPlidarDriver to controll the lidar device
-    std::unique_ptr<RPlidarDriver> rplidar(RPlidarDriver::CreateDriver());
+    std::unique_ptr<RPlidar::RPlidarDriver, decltype(&RPlidar::RPlidarDriver::DisposeDriver)>
+    rplidar(
+        RPlidar::RPlidarDriver::CreateDriver(), 
+        &RPlidar::RPlidarDriver::DisposeDriver
+    );
 
     if (!rplidar) {
         ERROR_MSG("Could not allocate RPlidarDriver instance");
@@ -33,7 +38,7 @@ int main() {
 
         if (healthinfo.status == RPLIDAR_STATUS_ERROR) {
             ERROR_MSG("RPlidar internal error detected. Please reboot the device to retry");
-            //rplidar->reset();
+            //rplidar->reset(); // in a real implementation, reset should be used
             return EXIT_FAILURE;
         }
     } else {
@@ -54,11 +59,30 @@ int main() {
         std::cout << "\nHardware Rev: " << devinfo.hardware_version << std::endl;
     }
 
+    // start motor
     if (IS_FAIL(rplidar->startMotor())) {
         ERROR_MSG("Could not start motor");
         rplidar->disconnect();
         return EXIT_FAILURE;
     }
+
+    // get scan modes and start scanning
+    std::vector<RPlidar::RplidarScanMode> scanModes;
+
+    if (IS_FAIL(rplidar->getAllSupportedScanModes(scanModes))) {
+        ERROR_MSG("Could not get information about supported scanning modes");
+        return EXIT_FAILURE;
+    }
+    
+    RPlidar::RplidarScanMode selectedScanMode;
+    if (IS_FAIL(rplidar->startScanExpress(false, scanModes[0].id, 0, &selectedScanMode))) {
+        ERROR_MSG("Scan could not be started");
+        return EXIT_FAILURE;
+    }
+
+    //RPlidar::RplidarScanMode selectedScanMode;
+    //rplidar->startScan(false, true, 0, &selectedScanMode);
+
 
     // stop and disconnect RPlidar
     rplidar->stop();
